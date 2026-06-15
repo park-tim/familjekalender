@@ -6,118 +6,132 @@
 <title>Familjekalender</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f7; min-height: 100vh; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f7; min-height: 100vh; }
 
-  /* LOGIN */
-  #login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
-  .login-card { background: white; border-radius: 16px; padding: 2rem 1.5rem; width: 100%; max-width: 340px; box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
-  .login-logo { width: 56px; height: 56px; border-radius: 14px; background: #534AB7; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
-  .login-logo i { font-size: 28px; color: white; }
-  .login-card h1 { text-align: center; font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
-  .login-card p { text-align: center; font-size: 14px; color: #888; margin-bottom: 1.5rem; }
-  .login-card input { width: 100%; padding: 12px 14px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 15px; margin-bottom: 10px; outline: none; }
-  .login-card input:focus { border-color: #534AB7; box-shadow: 0 0 0 3px rgba(83,74,183,0.12); }
-  .login-btn { width: 100%; padding: 12px; background: #534AB7; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; }
-  .login-btn:active { background: #3C3489; }
-  .login-error { color: #D85A30; font-size: 13px; text-align: center; margin-top: 8px; display: none; }
+/* LOGIN */
+#login-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+.login-card { background: white; border-radius: 16px; padding: 2rem 1.5rem; width: 100%; max-width: 340px; box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+.login-logo { width: 56px; height: 56px; border-radius: 14px; background: #534AB7; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+.login-logo i { font-size: 28px; color: white; }
+.login-card h1 { text-align: center; font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+.login-card p { text-align: center; font-size: 14px; color: #888; margin-bottom: 1.5rem; }
+.login-card input { width: 100%; padding: 12px 14px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 15px; margin-bottom: 10px; outline: none; font-family: inherit; }
+.login-card input:focus { border-color: #534AB7; box-shadow: 0 0 0 3px rgba(83,74,183,0.12); }
+.login-btn { width: 100%; padding: 12px; background: #534AB7; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; }
+.login-error { color: #D85A30; font-size: 13px; text-align: center; margin-top: 8px; display: none; }
 
-  /* APP */
-  #app { display: none; max-width: 480px; margin: 0 auto; background: #f5f5f7; min-height: 100vh; }
-  .header { background: white; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; border-bottom: 0.5px solid #e8e8e8; }
-  .header h1 { font-size: 18px; font-weight: 600; color: #1a1a1a; }
-  .header-avatars { display: flex; gap: 6px; }
-  .avatar-sm { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+/* SYNC INDICATOR */
+#sync-bar { position: fixed; top: 0; left: 0; right: 0; background: #1D9E75; color: white; font-size: 13px; text-align: center; padding: 6px; z-index: 100; display: none; }
+#sync-bar.error { background: #D85A30; }
 
-  .tabs { display: flex; background: white; border-bottom: 0.5px solid #e8e8e8; position: sticky; top: 57px; z-index: 9; }
-  .tab { flex: 1; padding: 8px 0 6px; text-align: center; font-size: 10px; color: #999; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; }
-  .tab i { display: block; font-size: 20px; margin-bottom: 2px; }
-  .tab.active { color: #534AB7; border-bottom: 2px solid #534AB7; }
+/* APP */
+#app { display: none; max-width: 480px; margin: 0 auto; background: #f5f5f7; min-height: 100vh; }
+.header { background: white; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; border-bottom: 0.5px solid #e8e8e8; }
+.header h1 { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.header-avatars { display: flex; gap: 5px; }
+.avatar-sm { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+.sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #1D9E75; }
+.sync-dot.offline { background: #aaa; }
 
-  .section { padding: 16px; }
+.tabs { display: flex; background: white; border-bottom: 0.5px solid #e8e8e8; position: sticky; top: 57px; z-index: 9; }
+.tab { flex: 1; padding: 8px 0 6px; text-align: center; font-size: 10px; color: #999; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; }
+.tab i { display: block; font-size: 20px; margin-bottom: 2px; }
+.tab.active { color: #534AB7; border-bottom: 2px solid #534AB7; }
 
-  /* CALENDAR */
-  .month-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .month-nav button { background: white; border: 0.5px solid #e0e0e0; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
-  .month-nav span { font-size: 16px; font-weight: 600; color: #1a1a1a; }
-  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: white; border-radius: 12px; padding: 12px 8px; }
-  .cal-head { text-align: center; font-size: 11px; color: #999; padding: 4px 0; font-weight: 500; }
-  .cal-day { text-align: center; font-size: 13px; padding: 5px 2px 3px; border-radius: 8px; cursor: pointer; color: #1a1a1a; min-height: 34px; }
-  .cal-day:hover { background: #f0eefc; }
-  .cal-day.today { background: #534AB7; color: white; font-weight: 600; }
-  .cal-day.selected:not(.today) { outline: 2px solid #534AB7; }
-  .cal-day.other-month { color: #ccc; }
-  .dot-row { display: flex; justify-content: center; gap: 2px; margin-top: 2px; }
-  .dot { width: 4px; height: 4px; border-radius: 50%; }
+.section { padding: 16px; }
 
-  .day-label { font-size: 13px; font-weight: 600; color: #1a1a1a; margin: 14px 0 8px; }
-  .event-card { background: white; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-  .event-stripe { width: 4px; height: 36px; border-radius: 2px; flex-shrink: 0; }
-  .event-title { font-size: 14px; font-weight: 500; color: #1a1a1a; }
-  .event-meta { font-size: 12px; color: #888; margin-top: 2px; }
-  .empty-msg { font-size: 13px; color: #aaa; text-align: center; padding: 1.5rem 0; }
+/* CALENDAR */
+.month-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.month-nav button { background: white; border: 0.5px solid #e0e0e0; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
+.month-nav span { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; background: white; border-radius: 12px; padding: 12px 8px; }
+.cal-head { text-align: center; font-size: 11px; color: #999; padding: 4px 0; font-weight: 500; }
+.cal-day { text-align: center; font-size: 13px; padding: 5px 2px 3px; border-radius: 8px; cursor: pointer; color: #1a1a1a; min-height: 34px; }
+.cal-day:hover { background: #f0eefc; }
+.cal-day.today { background: #534AB7; color: white; font-weight: 600; }
+.cal-day.selected:not(.today) { outline: 2px solid #534AB7; }
+.cal-day.other-month { color: #ccc; }
+.dot-row { display: flex; justify-content: center; gap: 2px; margin-top: 2px; }
+.dot { width: 4px; height: 4px; border-radius: 50%; }
+.day-label { font-size: 13px; font-weight: 600; color: #1a1a1a; margin: 14px 0 8px; }
+.event-card { background: white; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+.event-stripe { width: 4px; height: 36px; border-radius: 2px; flex-shrink: 0; }
+.event-title { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+.event-meta { font-size: 12px; color: #888; margin-top: 2px; }
+.empty-msg { font-size: 13px; color: #aaa; text-align: center; padding: 1.5rem 0; }
 
-  /* TASKS */
-  .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
-  .chip { padding: 5px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 1.5px solid transparent; white-space: nowrap; font-weight: 500; }
-  .task-card { background: white; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
-  .task-check { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid #ddd; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-  .task-check.done { background: #1D9E75; border-color: #1D9E75; color: white; }
-  .task-title { font-size: 14px; color: #1a1a1a; }
-  .task-title.done { text-decoration: line-through; color: #aaa; }
-  .task-sub { font-size: 12px; color: #888; margin-top: 2px; }
+/* TASKS */
+.filter-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.chip { padding: 5px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 1.5px solid transparent; white-space: nowrap; font-weight: 500; }
+.task-card { background: white; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
+.task-check { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid #ddd; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.task-check.done { background: #1D9E75; border-color: #1D9E75; color: white; }
+.task-title { font-size: 14px; color: #1a1a1a; }
+.task-title.done { text-decoration: line-through; color: #aaa; }
+.task-sub { font-size: 12px; color: #888; margin-top: 2px; }
 
-  /* NOTIFICATIONS */
-  .notis-card { background: white; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
-  .notis-icon { font-size: 20px; margin-top: 1px; }
-  .notis-text { font-size: 14px; color: #1a1a1a; }
-  .notis-time { font-size: 12px; color: #888; margin-top: 2px; }
+/* NOTIFICATIONS */
+.notis-card { background: white; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
+.notis-icon { font-size: 20px; margin-top: 1px; }
+.notis-text { font-size: 14px; color: #1a1a1a; }
+.notis-time { font-size: 12px; color: #888; margin-top: 2px; }
 
-  /* SETTINGS / MEMBERS */
-  .settings-card { background: white; border-radius: 12px; padding: 14px; margin-bottom: 14px; }
-  .settings-title { font-size: 13px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
-  .member-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid #f0f0f0; }
-  .member-row:last-child { border-bottom: none; }
-  .avatar-lg { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; flex-shrink: 0; }
-  .member-name-input { flex: 1; padding: 8px 10px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; font-family: inherit; }
-  .member-name-input:focus { outline: none; border-color: #534AB7; }
-  .color-row { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
-  .color-dot { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
-  .color-dot.sel { border-color: #1a1a1a; }
-  .save-btn { width: 100%; padding: 13px; background: #534AB7; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; }
-  .save-btn:active { background: #3C3489; }
-  .success-msg { background: #E1F5EE; color: #0F6E56; border-radius: 8px; padding: 10px; text-align: center; font-size: 13px; font-weight: 500; margin-bottom: 12px; display: none; }
+/* SETTINGS */
+.settings-card { background: white; border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+.settings-title { font-size: 12px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+.member-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid #f0f0f0; }
+.member-row:last-child { border-bottom: none; }
+.avatar-lg { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; flex-shrink: 0; }
+.member-name-input { flex: 1; padding: 8px 10px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; font-family: inherit; }
+.member-name-input:focus { outline: none; border-color: #534AB7; }
+.color-row { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.color-dot { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+.color-dot.sel { border-color: #1a1a1a; }
+.save-btn { width: 100%; padding: 13px; background: #534AB7; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; }
+.success-msg { background: #E1F5EE; color: #0F6E56; border-radius: 8px; padding: 10px; text-align: center; font-size: 13px; font-weight: 500; margin-bottom: 12px; display: none; }
 
-  /* iCAL */
-  .ical-card { background: white; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-  .ical-step { display: flex; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid #f5f5f5; }
-  .ical-step:last-child { border-bottom: none; }
-  .step-badge { width: 24px; height: 24px; border-radius: 50%; background: #534AB7; color: white; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .step-text { font-size: 13px; color: #444; line-height: 1.5; padding-top: 2px; }
-  .url-box { background: #f5f5f7; border-radius: 8px; padding: 10px 12px; font-size: 12px; font-family: monospace; color: #444; word-break: break-all; margin: 6px 0; }
-  .outline-btn { width: 100%; padding: 11px; background: none; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 14px; cursor: pointer; color: #1a1a1a; display: flex; align-items: center; justify-content: center; gap: 8px; }
+/* iCAL */
+.ical-card { background: white; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+.ical-step { display: flex; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid #f5f5f5; }
+.ical-step:last-child { border-bottom: none; }
+.step-badge { width: 24px; height: 24px; border-radius: 50%; background: #534AB7; color: white; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-text { font-size: 13px; color: #444; line-height: 1.5; padding-top: 2px; }
+.url-box { background: #f5f5f7; border-radius: 8px; padding: 10px 12px; font-size: 12px; font-family: monospace; color: #444; word-break: break-all; margin: 6px 0; }
+.outline-btn { width: 100%; padding: 11px; background: none; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 14px; cursor: pointer; color: #1a1a1a; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
 
-  /* FAB */
-  .fab { position: fixed; bottom: 24px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: #534AB7; color: white; border: none; font-size: 26px; cursor: pointer; box-shadow: 0 4px 16px rgba(83,74,183,0.4); display: flex; align-items: center; justify-content: center; z-index: 20; }
+/* FAB */
+.fab { position: fixed; bottom: 24px; right: 20px; width: 52px; height: 52px; border-radius: 50%; background: #534AB7; color: white; border: none; font-size: 26px; cursor: pointer; box-shadow: 0 4px 16px rgba(83,74,183,0.4); display: flex; align-items: center; justify-content: center; z-index: 20; }
 
-  /* MODAL */
-  .modal-bg { position: fixed; top:0;left:0;right:0;bottom:0; background: rgba(0,0,0,0.45); display: none; align-items: flex-end; z-index: 50; }
-  .modal-bg.open { display: flex; }
-  .modal { background: white; border-radius: 20px 20px 0 0; padding: 20px 16px 32px; width: 100%; max-width: 480px; margin: 0 auto; }
-  .modal-handle { width: 36px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 0 auto 16px; }
-  .modal h3 { font-size: 17px; font-weight: 600; color: #1a1a1a; margin-bottom: 14px; }
-  .modal input, .modal select, .modal textarea { width: 100%; padding: 11px 12px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 15px; font-family: inherit; margin-bottom: 10px; }
-  .modal input:focus, .modal select:focus { outline: none; border-color: #534AB7; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 4px; }
-  .modal-actions button { flex: 1; padding: 12px; border-radius: 10px; font-size: 15px; cursor: pointer; font-weight: 500; }
-  .btn-cancel { background: #f5f5f7; border: none; color: #666; }
-  .btn-save { background: #534AB7; border: none; color: white; }
+/* MODAL */
+.modal-bg { position: fixed; top:0;left:0;right:0;bottom:0; background: rgba(0,0,0,0.45); display: none; align-items: flex-end; z-index: 50; }
+.modal-bg.open { display: flex; }
+.modal { background: white; border-radius: 20px 20px 0 0; padding: 20px 16px 32px; width: 100%; max-width: 480px; margin: 0 auto; }
+.modal-handle { width: 36px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 0 auto 16px; }
+.modal h3 { font-size: 17px; font-weight: 600; color: #1a1a1a; margin-bottom: 14px; }
+.modal input, .modal select { width: 100%; padding: 11px 12px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 15px; font-family: inherit; margin-bottom: 10px; }
+.modal input:focus, .modal select:focus { outline: none; border-color: #534AB7; }
+.modal-actions { display: flex; gap: 10px; margin-top: 4px; }
+.modal-actions button { flex: 1; padding: 12px; border-radius: 10px; font-size: 15px; cursor: pointer; font-weight: 500; font-family: inherit; }
+.btn-cancel { background: #f5f5f7; border: none; color: #666; }
+.btn-save { background: #534AB7; border: none; color: white; }
+
+/* LOADING */
+#loading-screen { position: fixed; top:0;left:0;right:0;bottom:0; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 200; }
+#loading-screen .spin { width: 36px; height: 36px; border: 3px solid #EEEDFE; border-top-color: #534AB7; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 12px; }
+#loading-screen p { font-size: 14px; color: #888; }
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login-screen">
+<div id="loading-screen">
+  <div class="spin"></div>
+  <p>Ansluter...</p>
+</div>
+
+<div id="login-screen" style="display:none">
   <div class="login-card">
     <div class="login-logo"><i class="ti ti-calendar"></i></div>
     <h1>Familjekalender</h1>
@@ -128,11 +142,13 @@
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <div class="header">
     <h1><i class="ti ti-calendar" style="color:#534AB7;margin-right:6px;vertical-align:-3px"></i>Familjekalender</h1>
-    <div class="header-avatars" id="header-avatars"></div>
+    <div class="header-right">
+      <div class="sync-dot" id="sync-dot" title="Ansluten"></div>
+      <div class="header-avatars" id="header-avatars"></div>
+    </div>
   </div>
   <div class="tabs">
     <button class="tab active" onclick="showTab('cal',this)"><i class="ti ti-calendar"></i>Kalender</button>
@@ -178,7 +194,7 @@
         <div class="step-text">Klistra in din iCal-URL:<div class="url-box">dittnamn.github.io/familjekalender/calendar.ics</div></div>
       </div>
     </div>
-    <button class="outline-btn" onclick="downloadIcs()"><i class="ti ti-download"></i> Ladda ner .ics-fil nu</button>
+    <button class="outline-btn" onclick="downloadIcs()"><i class="ti ti-download"></i> Ladda ner .ics-fil med alla händelser</button>
   </div>
 
   <div id="tab-settings" class="section" style="display:none">
@@ -188,12 +204,12 @@
       <div id="members-edit"></div>
     </div>
     <button class="save-btn" onclick="saveMembers()"><i class="ti ti-device-floppy" style="margin-right:6px"></i>Spara ändringar</button>
+    <button onclick="logout()" style="width:100%;padding:12px;background:none;border:1px solid #e0e0e0;border-radius:10px;font-size:14px;color:#888;cursor:pointer;margin-top:10px;font-family:inherit"><i class="ti ti-logout" style="margin-right:6px"></i>Logga ut</button>
   </div>
 
-  <button class="fab" id="fab" onclick="openModal()" title="Lägg till"><i class="ti ti-plus"></i></button>
+  <button class="fab" id="fab" onclick="openModal()"><i class="ti ti-plus"></i></button>
 </div>
 
-<!-- MODAL -->
 <div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -206,23 +222,29 @@
   </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
 <script>
+// ── FIREBASE CONFIG ───────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyBXyAYp6ftyhMhJBVB7Vuzzlg91DEqC2z8",
+  authDomain: "familjekalender-1d14c.firebaseapp.com",
+  databaseURL: "https://familjekalender-1d14c-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "familjekalender-1d14c",
+  storageBucket: "familjekalender-1d14c.appspot.com",
+  messagingSenderId: "placeholder",
+  appId: "placeholder"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 // ── PASSWORD ──────────────────────────────────────────────────────
 const PASSWORD = 'Letsomebodygo2021';
-function tryLogin() {
-  const val = document.getElementById('pw-input').value;
-  if (val === PASSWORD) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    init();
-  } else {
-    document.getElementById('login-error').style.display = 'block';
-    document.getElementById('pw-input').value = '';
-    document.getElementById('pw-input').focus();
-  }
-}
 
-// ── DATA ──────────────────────────────────────────────────────────
+// ── COLORS ────────────────────────────────────────────────────────
 const COLORS = [
   {main:'#534AB7',bg:'#EEEDFE',text:'#3C3489'},
   {main:'#1D9E75',bg:'#E1F5EE',text:'#0F6E56'},
@@ -234,55 +256,109 @@ const COLORS = [
   {main:'#888780',bg:'#F1EFE8',text:'#5F5E5A'},
 ];
 
+// ── STATE ─────────────────────────────────────────────────────────
 let members = [
   {name:'Pappa', ci:0},
   {name:'Mamma', ci:1},
   {name:'Barn 1', ci:2},
   {name:'Barn 2', ci:3},
 ];
+let events = {};
+let tasks = {};
+let notifications = [];
 
-function getInitial(name) { return name.trim().charAt(0).toUpperCase() || '?'; }
-function c(m) { return COLORS[m.ci]; }
-
-const today = new Date();
-const todayStr = fmt(today);
-function fmt(d) { return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-
-let events = [
-  {id:1,title:'Fotbollsträning',date:'2026-06-16',time:'16:00',member:2,desc:'Eriksbergs IP'},
-  {id:2,title:'Läkartid',date:'2026-06-18',time:'09:30',member:0,desc:'Vårdcentralen'},
-  {id:3,title:'Hämta paket',date:'2026-06-20',time:'',member:1,desc:'PostNord'},
-  {id:4,title:'Simskola',date:'2026-06-23',time:'10:00',member:3,desc:'Valhalla'},
-  {id:5,title:'Familjedag',date:'2026-06-28',time:'12:00',member:-1,desc:'Liseberg'},
-];
-let tasks = [
-  {id:1,title:'Handla mat inför helgen',done:false,member:1,due:'2026-06-15'},
-  {id:2,title:'Betala räkningar',done:false,member:0,due:'2026-06-20'},
-  {id:3,title:'Städa badrummet',done:true,member:2,due:'2026-06-14'},
-  {id:4,title:'Boka frisör',done:false,member:1,due:'2026-06-25'},
-];
-let notifications = [
-  {icon:'ti-calendar',text:'Fotbollsträning imorgon kl 16:00',time:'Idag 08:00',member:2},
-  {icon:'ti-check',text:'Städa badrummet är avklarat!',time:'Igår 18:30',member:2},
-  {icon:'ti-bell',text:'Läkartid om 3 dagar',time:'Igår 09:00',member:0},
-];
-
-let curDate = new Date(today.getFullYear(), today.getMonth(), 1);
+const todayDate = new Date();
+const todayStr = fmt(todayDate);
+let curDate = new Date(todayDate.getFullYear(), todayDate.getMonth(), 1);
 let selectedDate = todayStr;
 let filterMember = -1;
 let curTab = 'cal';
 let modalType = 'event';
+let isLoggedIn = false;
 
-// ── INIT ──────────────────────────────────────────────────────────
-function init() {
+function fmt(d) {
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function getInitial(name) { return name.trim().charAt(0).toUpperCase() || '?'; }
+function c(m) { return COLORS[m.ci] || COLORS[0]; }
+function nowTime() {
+  const n = new Date();
+  return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+}
+
+// ── LOGIN ─────────────────────────────────────────────────────────
+function tryLogin() {
+  const val = document.getElementById('pw-input').value;
+  if (val === PASSWORD) {
+    localStorage.setItem('fk_auth', '1');
+    enterApp();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+  }
+}
+
+function enterApp() {
+  isLoggedIn = true;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  startFirebaseListeners();
   renderAvatars();
   renderCal();
 }
 
-function renderAvatars() {
-  document.getElementById('header-avatars').innerHTML = members.map(m =>
-    `<div class="avatar-sm" style="background:${c(m).bg};color:${c(m).text}">${getInitial(m.name)}</div>`
-  ).join('');
+function logout() {
+  localStorage.removeItem('fk_auth');
+  location.reload();
+}
+
+// ── FIREBASE LISTENERS ────────────────────────────────────────────
+function startFirebaseListeners() {
+  // Connection status
+  db.ref('.info/connected').on('value', snap => {
+    const dot = document.getElementById('sync-dot');
+    if (snap.val()) {
+      dot.className = 'sync-dot';
+      dot.title = 'Ansluten – synkar i realtid';
+    } else {
+      dot.className = 'sync-dot offline';
+      dot.title = 'Offline';
+    }
+  });
+
+  // Members
+  db.ref('members').on('value', snap => {
+    const val = snap.val();
+    if (val && Array.isArray(val)) {
+      members = val;
+      renderAvatars();
+      if (curTab === 'cal') renderCal();
+      if (curTab === 'tasks') renderTasks();
+      if (curTab === 'settings') renderSettings();
+    } else {
+      // First time – push defaults
+      db.ref('members').set(members);
+    }
+  });
+
+  // Events
+  db.ref('events').on('value', snap => {
+    events = snap.val() || {};
+    if (curTab === 'cal') renderCal();
+  });
+
+  // Tasks
+  db.ref('tasks').on('value', snap => {
+    tasks = snap.val() || {};
+    if (curTab === 'tasks') renderTasks();
+  });
+
+  // Notifications
+  db.ref('notifications').orderByChild('ts').limitToLast(20).on('value', snap => {
+    notifications = [];
+    snap.forEach(child => notifications.unshift({id: child.key, ...child.val()}));
+    if (curTab === 'notis') renderNotis();
+  });
 }
 
 // ── TABS ──────────────────────────────────────────────────────────
@@ -294,9 +370,16 @@ function showTab(tab, el) {
   el.classList.add('active');
   curTab = tab;
   document.getElementById('fab').style.display = (tab==='cal'||tab==='tasks') ? 'flex' : 'none';
-  if(tab==='tasks') renderTasks();
-  if(tab==='notis') renderNotis();
-  if(tab==='settings') renderSettings();
+  if (tab==='tasks') renderTasks();
+  if (tab==='notis') renderNotis();
+  if (tab==='settings') renderSettings();
+}
+
+// ── AVATARS ───────────────────────────────────────────────────────
+function renderAvatars() {
+  document.getElementById('header-avatars').innerHTML = members.map(m =>
+    `<div class="avatar-sm" style="background:${c(m).bg};color:${c(m).text}">${getInitial(m.name)}</div>`
+  ).join('');
 }
 
 // ── CALENDAR ──────────────────────────────────────────────────────
@@ -314,11 +397,12 @@ function renderCal() {
   for(let i=0;i<startDay;i++) {
     grid.innerHTML += `<div class="cal-day other-month">${prevDays-startDay+1+i}</div>`;
   }
+  const evArr = Object.values(events);
   for(let i=1;i<=daysInMonth;i++) {
     const ds = y+'-'+String(m+1).padStart(2,'0')+'-'+String(i).padStart(2,'0');
     const isToday = ds===todayStr, isSel = ds===selectedDate;
-    const dayEvs = events.filter(e=>e.date===ds);
-    const dots = dayEvs.slice(0,3).map(ev=>`<div class="dot" style="background:${ev.member>=0?c(members[ev.member]).main:'#534AB7'}"></div>`).join('');
+    const dayEvs = evArr.filter(e=>e.date===ds);
+    const dots = dayEvs.slice(0,3).map(ev=>`<div class="dot" style="background:${ev.member>=0&&members[ev.member]?c(members[ev.member]).main:'#534AB7'}"></div>`).join('');
     grid.innerHTML += `<div class="cal-day${isToday?' today':''}${isSel&&!isToday?' selected':''}" onclick="selectDay('${ds}')">
       ${i}${dots?`<div class="dot-row">${dots}</div>`:''}
     </div>`;
@@ -332,57 +416,75 @@ function renderEvents() {
   const months2 = ['januari','februari','mars','april','maj','juni','juli','augusti','september','oktober','november','december'];
   const d = new Date(selectedDate+'T00:00:00');
   document.getElementById('day-label').textContent = d.getDate()+' '+months2[d.getMonth()];
-  const dayEvs = events.filter(e=>e.date===selectedDate);
-  if(!dayEvs.length) {
+  const dayEvs = Object.values(events).filter(e=>e.date===selectedDate).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+  if (!dayEvs.length) {
     document.getElementById('events-list').innerHTML = '<div class="empty-msg">Inga händelser denna dag</div>';
     return;
   }
-  document.getElementById('events-list').innerHTML = dayEvs.map(ev=>`
-    <div class="event-card">
-      <div class="event-stripe" style="background:${ev.member>=0?c(members[ev.member]).main:'#534AB7'}"></div>
-      <div>
+  document.getElementById('events-list').innerHTML = dayEvs.map(ev=>{
+    const col = ev.member>=0&&members[ev.member] ? c(members[ev.member]).main : '#534AB7';
+    const who = ev.member>=0&&members[ev.member] ? members[ev.member].name : 'Hela familjen';
+    return `<div class="event-card">
+      <div class="event-stripe" style="background:${col}"></div>
+      <div style="flex:1">
         <div class="event-title">${ev.title}</div>
-        <div class="event-meta">${ev.time?ev.time+' · ':''}${ev.member>=0?members[ev.member].name:'Hela familjen'}${ev.desc?' · '+ev.desc:''}</div>
+        <div class="event-meta">${ev.time?ev.time+' · ':''}${who}${ev.desc?' · '+ev.desc:''}</div>
       </div>
-    </div>`).join('');
+      <button onclick="deleteEvent('${ev.id}')" style="background:none;border:none;cursor:pointer;color:#ccc;font-size:18px;padding:4px"><i class="ti ti-trash"></i></button>
+    </div>`;
+  }).join('');
+}
+
+function deleteEvent(id) {
+  if (confirm('Ta bort händelsen?')) db.ref('events/'+id).remove();
 }
 
 // ── TASKS ─────────────────────────────────────────────────────────
 function renderTasks() {
   const chips = document.getElementById('filter-chips');
-  chips.innerHTML = `<div class="chip${filterMember===-1?' active':''}" style="background:${filterMember===-1?'#EEEDFE':'#f5f5f7'};color:${filterMember===-1?'#534AB7':'#666'};border-color:${filterMember===-1?'#534AB7':'transparent'}" onclick="filterMember=-1;renderTasks()">Alla</div>`+
-    members.map((m,i)=>`<div class="chip${filterMember===i?' active':''}" style="background:${filterMember===i?c(m).bg:'#f5f5f7'};color:${c(m).text};border-color:${filterMember===i?c(m).main:'transparent'}" onclick="filterMember=${i};renderTasks()">${m.name}</div>`).join('');
-  const list = filterMember===-1?tasks:tasks.filter(t=>t.member===filterMember);
+  chips.innerHTML = `<div class="chip" style="background:${filterMember===-1?'#EEEDFE':'#f5f5f7'};color:${filterMember===-1?'#534AB7':'#666'};border-color:${filterMember===-1?'#534AB7':'transparent'}" onclick="filterMember=-1;renderTasks()">Alla</div>`+
+    members.map((m,i)=>`<div class="chip" style="background:${filterMember===i?c(m).bg:'#f5f5f7'};color:${c(m).text};border-color:${filterMember===i?c(m).main:'transparent'}" onclick="filterMember=${i};renderTasks()">${m.name}</div>`).join('');
+  let list = Object.values(tasks);
+  if (filterMember !== -1) list = list.filter(t=>t.member===filterMember);
+  list.sort((a,b) => (a.done===b.done ? 0 : a.done ? 1 : -1));
   document.getElementById('tasks-list').innerHTML = list.length
     ? list.map(t=>`
       <div class="task-card">
-        <div class="task-check${t.done?' done':''}" onclick="toggleTask(${t.id})">${t.done?'<i class="ti ti-check" style="font-size:13px"></i>':''}</div>
-        <div>
+        <div class="task-check${t.done?' done':''}" onclick="toggleTask('${t.id}',${!t.done})">${t.done?'<i class="ti ti-check" style="font-size:13px"></i>':''}</div>
+        <div style="flex:1">
           <div class="task-title${t.done?' done':''}">${t.title}</div>
-          <div class="task-sub" style="color:${c(members[t.member]).main}">${members[t.member].name} · ${t.due}</div>
+          <div class="task-sub" style="color:${members[t.member]?c(members[t.member]).main:'#888'}">${members[t.member]?members[t.member].name:''} · ${t.due}</div>
         </div>
+        <button onclick="deleteTask('${t.id}')" style="background:none;border:none;cursor:pointer;color:#ccc;font-size:18px;padding:4px"><i class="ti ti-trash"></i></button>
       </div>`).join('')
     : '<div class="empty-msg">Inga uppgifter</div>';
 }
 
-function toggleTask(id) {
-  const t = tasks.find(t=>t.id===id);
-  if(t) {
-    t.done = !t.done;
-    if(t.done) notifications.unshift({icon:'ti-check',text:t.title+' är avklarat!',time:'Nu',member:t.member});
-    renderTasks();
+function toggleTask(id, done) {
+  db.ref('tasks/'+id).update({done});
+  if (done) {
+    const t = tasks[id];
+    if (t) pushNotis('ti-check', t.title+' är avklarat!', t.member);
   }
 }
 
+function deleteTask(id) {
+  if (confirm('Ta bort uppgiften?')) db.ref('tasks/'+id).remove();
+}
+
 // ── NOTIFICATIONS ─────────────────────────────────────────────────
+function pushNotis(icon, text, member) {
+  db.ref('notifications').push({icon, text, member, ts: Date.now(), time: nowTime()});
+}
+
 function renderNotis() {
   document.getElementById('notis-list').innerHTML = notifications.length
     ? notifications.map(n=>`
       <div class="notis-card">
-        <i class="ti ${n.icon} notis-icon" style="color:${c(members[n.member]).main}"></i>
+        <i class="ti ${n.icon} notis-icon" style="color:${members[n.member]?c(members[n.member]).main:'#534AB7'}"></i>
         <div>
           <div class="notis-text">${n.text}</div>
-          <div class="notis-time">${n.time}</div>
+          <div class="notis-time">${n.time||''}</div>
         </div>
       </div>`).join('')
     : '<div class="empty-msg">Inga notiser</div>';
@@ -413,10 +515,9 @@ function pickColor(mi, ci) {
 function saveMembers() {
   members.forEach((m,i)=>{
     const v = document.getElementById('mname'+i).value.trim();
-    if(v) m.name = v;
+    if (v) m.name = v;
   });
-  renderAvatars();
-  renderCal();
+  db.ref('members').set(members);
   const msg = document.getElementById('success-msg');
   msg.style.display = 'block';
   setTimeout(()=>msg.style.display='none', 2500);
@@ -427,7 +528,7 @@ function openModal() {
   modalType = curTab==='tasks' ? 'task' : 'event';
   document.getElementById('modal-title').textContent = modalType==='event' ? 'Lägg till händelse' : 'Lägg till uppgift';
   const opts = members.map((m,i)=>`<option value="${i}">${m.name}</option>`).join('');
-  if(modalType==='event') {
+  if (modalType==='event') {
     document.getElementById('modal-content').innerHTML = `
       <input type="text" id="m-title" placeholder="Titel" />
       <input type="date" id="m-date" value="${selectedDate}" />
@@ -448,16 +549,17 @@ function closeModal() { document.getElementById('modal').classList.remove('open'
 
 function saveItem() {
   const title = document.getElementById('m-title').value.trim();
-  if(!title) return;
-  if(modalType==='event') {
+  if (!title) return;
+  if (modalType==='event') {
     const mem = parseInt(document.getElementById('m-member').value);
-    events.push({id:Date.now(),title,date:document.getElementById('m-date').value,time:document.getElementById('m-time').value,member:mem,desc:document.getElementById('m-desc').value});
-    notifications.unshift({icon:'ti-calendar',text:title+' lagd till',time:'Nu',member:Math.max(0,mem)});
-    renderCal();
+    const ref = db.ref('events').push();
+    ref.set({id: ref.key, title, date: document.getElementById('m-date').value, time: document.getElementById('m-time').value, member: mem, desc: document.getElementById('m-desc').value||''});
+    pushNotis('ti-calendar', title+' lagd till i kalendern', Math.max(0, mem));
   } else {
     const mem = parseInt(document.getElementById('m-member').value);
-    tasks.push({id:Date.now(),title,done:false,member:mem,due:document.getElementById('m-due').value});
-    renderTasks();
+    const ref = db.ref('tasks').push();
+    ref.set({id: ref.key, title, done: false, member: mem, due: document.getElementById('m-due').value});
+    pushNotis('ti-plus', 'Ny uppgift: '+title, mem);
   }
   closeModal();
 }
@@ -465,9 +567,9 @@ function saveItem() {
 // ── iCAL ──────────────────────────────────────────────────────────
 function downloadIcs() {
   const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Familjekalender//SV','CALSCALE:GREGORIAN'];
-  events.forEach(ev=>{
+  Object.values(events).forEach(ev=>{
     const dt = ev.date.replace(/-/g,'');
-    lines.push('BEGIN:VEVENT',`UID:${ev.id}@familjekalender`,`DTSTART;VALUE=DATE:${dt}`,`SUMMARY:${ev.title}${ev.member>=0?' ('+members[ev.member].name+')':''}`,`DESCRIPTION:${ev.desc||''}`,'END:VEVENT');
+    lines.push('BEGIN:VEVENT',`UID:${ev.id}@familjekalender`,`DTSTART;VALUE=DATE:${dt}`,`SUMMARY:${ev.title}${ev.member>=0&&members[ev.member]?' ('+members[ev.member].name+')':''}`,`DESCRIPTION:${ev.desc||''}`,'END:VEVENT');
   });
   lines.push('END:VCALENDAR');
   const blob = new Blob([lines.join('\r\n')],{type:'text/calendar'});
@@ -476,6 +578,18 @@ function downloadIcs() {
   a.download = 'familjekalender.ics';
   a.click();
 }
+
+// ── BOOT ──────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loading-screen').style.display = 'none';
+    if (localStorage.getItem('fk_auth') === '1') {
+      enterApp();
+    } else {
+      document.getElementById('login-screen').style.display = 'flex';
+    }
+  }, 800);
+});
 </script>
 </body>
 </html>
